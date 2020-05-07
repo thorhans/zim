@@ -235,7 +235,12 @@ PIXBUF_CHR = '\uFFFC'
 SCROLL_TO_MARK_MARGIN = 0.2
 
 # Regexes used for autoformatting
-heading_re = Re(r'^(={2,7})\s*(.*)\s*(\1)?$')
+#T/ heading_re = Re(r'^(={2,7})\s*(.*)\s*(\1)?$')
+#T{
+heading_re = Re(r'^(=\*{1,6})\s*(.*)\s*$')
+heading2_re = Re(r'^(\*{1,6})\s*(.*)\s*$')
+#T]
+
 page_re = Re(r'''(
 	  [\w\.\-\(\)]*(?: :[\w\.\-\(\)]{2,} )+:?
 	| \+\w[\w\.\-\(\)]+(?: :[\w\.\-\(\)]{2,} )*:?
@@ -4283,7 +4288,8 @@ class TextView(Gtk.TextView):
 
 		if heading_re.match(line):
 			level = len(heading_re[1]) - 1
-			heading = heading_re[2]
+			#T/ heading = heading_re[2]
+			heading = heading_re[0][1:]
 			mark = buffer.create_mark(None, end)
 			buffer.delete(start, end)
 			buffer.insert_with_tags_by_name(
@@ -6489,19 +6495,48 @@ class PageView(GSignalEmitterMixin, Gtk.VBox):
 		buffer = self.textview.get_buffer()
 		selected = False
 		mark = buffer.create_mark(None, buffer.get_insert_iter())
+		mark_left = buffer.create_mark(None, buffer.get_insert_iter(), True)
 
-		if format != buffer.get_textstyle():
-			ishead = format in ('h1', 'h2', 'h3', 'h4', 'h5', 'h6')
-			selected = self.autoselect(selectline=ishead)
+		#T/ if format != buffer.get_textstyle():
+		#T/  	ishead = format in ('h1', 'h2', 'h3', 'h4', 'h5', 'h6')
+		#T/  	selected = self.autoselect(selectline=ishead)
+		#{
+		old_format = buffer.get_textstyle()
+		ishead = format in ('h1', 'h2', 'h3', 'h4', 'h5', 'h6')
+		old_start = buffer.get_insert_iter()
+		# Aaahhh, this fixes a bug in Zim where you have to press
+		# ‘Ctrl-number’ twice to deselect a header.
+		selected = self.autoselect(selectline=ishead)
+		start = buffer.get_insert_iter()
+		in_col0 = old_start.get_offset() == start.get_offset()
 
 		buffer.toggle_textstyle(format)
+
+		#T{
+		if ishead:
+			# Remove "*" and " ".
+			end = start.copy()
+			while end.get_char() in "* " and end.forward_char():
+				pass
+			buffer.delete(start, end)
+
+			if format != old_format:
+				level = int(format[1:])
+				buffer.insert_at_cursor("*" * level + " ")
+		#T}
 
 		if selected:
 			# If we keep the selection we can not continue typing
 			# so remove the selection and restore the cursor.
 			buffer.unset_selection()
-			buffer.place_cursor(buffer.get_iter_at_mark(mark))
+			#T/ buffer.place_cursor(buffer.get_iter_at_mark(mark))
+			if in_col0:
+				buffer.place_cursor(buffer.get_iter_at_mark(mark_left))
+			else:
+				buffer.place_cursor(buffer.get_iter_at_mark(mark))
 		buffer.delete_mark(mark)
+		#T+
+		buffer.delete_mark(mark_left)
 
 	def autoselect(self, selectline=False):
 		'''Auto select either a word or a line.

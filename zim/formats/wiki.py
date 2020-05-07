@@ -164,7 +164,8 @@ class WikiParser(object):
 				process=self.parse_object
 			),
 			Rule(HEADING,
-				r'^( ==+ [\ \t]+ \S.*? ) [\ \t]* =* \n',		# "==== heading ===="
+				#T/ r'^( ==+ [\ \t]+ \S.*? ) [\ \t]* =* \n',		# "==== heading ===="
+				r'^( =\*+ [ ]+ \S.* )\n',		# "=*** heading"
 				process=self.parse_heading
 			),
 			# standard table format
@@ -185,18 +186,25 @@ class WikiParser(object):
 	@staticmethod
 	def parse_heading(builder, text):
 		'''Parse heading and determine it's level'''
-		assert text.startswith('=')
+		#T/ assert text.startswith('=')
+		#T/ for i, c in enumerate(text):
+		#T/  	if c != '=':
+		#T/  		break
+		#T{
+		assert text.startswith('=*')
 		for i, c in enumerate(text):
-			if c != '=':
-				break
+			if i > 0 and c != '*': break
+		#T}
 
-		level = 7 - min(6, i)
-			# == is level 5
-			# === is level 4
-			# ...
-			# ======= is level 1
+		#T/ level = 7 - min(6, i)
+		#T/ 	# == is level 5
+		#T/ 	# === is level 4
+		#T/ 	# ...
+		#T/ 	# ======= is level 1
+		level = i - 1
 
-		text = text[i:].lstrip() + '\n'
+		#T/ text = text[i:].lstrip() + '\n'
+		text = text[1:] + '\n'
 		builder.append(HEADING, {'level': level}, text)
 
 	@staticmethod
@@ -552,15 +560,16 @@ class Dumper(TextDumper):
 		return strings
 
 	def dump_h(self, tag, attrib, strings):
-		# Wrap line with number of "=="
-		level = int(attrib['level'])
-		if level < 1:
-			level = 1
-		elif level > 5:
-			level = 5
-		tag = '=' * (7 - level)
-		strings.insert(0, tag + ' ')
-		strings.append(' ' + tag)
+		#T/ # Wrap line with number of "=="
+		#T/ level = int(attrib['level'])
+		#T/ if level < 1:
+		#T/  	level = 1
+		#T/ elif level > 5:
+		#T/  	level = 5
+		#T/ tag = '=' * (7 - level)
+		#T/ strings.insert(0, tag + ' ')
+		#T/ strings.append(' ' + tag)
+		strings.insert(0, '=')
 		return strings
 
 	def dump_link(self, tag, attrib, strings=None):
