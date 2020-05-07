@@ -1,3 +1,11 @@
+
+Zimt - my variant of Zim
+===========================
+
+The original README follows 
+
+---------------------------
+
 Zim - A Desktop Wiki Editor
 ===========================
 
