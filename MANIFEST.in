@@ -1,0 +1,20 @@
+# Script and module files are included automatically
+# need to specify additional distribution files here
+include *.py
+include *.txt
+include *.md
+include *.conf
+include Makefile
+include LICENSE
+graft translations
+graft data
+prune data/manual/.zim
+graft icons
+graft xdg
+prune xdg/hicolor
+graft cgi-bin
+graft contrib
+graft tests
+prune tests/tmp
+graft tools
+global-exclude *~ *.bak *.swp *.pyc
