@@ -104,7 +104,7 @@ class WikiParser(object):
 			| Rule(SUBSCRIPT, r'_\{(?!~)(.+?)\}')
 			| Rule(SUPERSCRIPT, r'\^\{(?!~)(.+?)\}')
 			| Rule(STRIKE, r'~~(?!~)(.+?)~~')
-			| Rule(VERBATIM, r"''(?!')(.+?)''")
+			| Rule(VERBATIM, r"‹(?!')(.+?)›")
 		)
 
 	def _init_intermediate_parser(self):
@@ -533,7 +533,7 @@ class Dumper(TextDumper):
 		STRONG: ('**', '**'),
 		MARK: ('__', '__'),
 		STRIKE: ('~~', '~~'),
-		VERBATIM: ("''", "''"),
+		VERBATIM: ("‹", "›"),
 		TAG: ('', ''), # No additional annotation (apart from the visible @)
 		SUBSCRIPT: ('_{', '}'),
 		SUPERSCRIPT: ('^{', '}'),
