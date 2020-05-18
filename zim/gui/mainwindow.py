@@ -696,7 +696,7 @@ class MainWindow(Window):
 			self.notebook.state.write()
 
 	def on_notebook_properties_changed(self, properties):
-		self.set_title(self.notebook.name + ' - Zim')
+		self.set_title(self.notebook.name + ' - Zimt') #T
 		if self.notebook.icon:
 			try:
 				self.set_icon_from_file(self.notebook.icon)
