@@ -2,6 +2,36 @@
 Zimt - my variant of Zim
 ===========================
 
+Formatting
+===========================
+
+Headers:
+
+    =* H1
+    
+    =** H2
+    
+    =*** H3
+    
+    =**** H4
+    
+    =***** H5
+    
+Numbered list:    
+    
+    1. One
+    2. Two
+    
+Unnumbered list:    
+    
+    * One
+            * Eleven
+                            
+Yet unsupported:
+    
+    = definitions
+
+
 The original README follows 
 
 ---------------------------
