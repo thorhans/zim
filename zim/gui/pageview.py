@@ -532,6 +532,7 @@ class TextBuffer(Gtk.TextBuffer):
 	}
 
 	# style attributes
+  #T+ # Change this with ‘indent’ in ‘zimt/data/style.conf’.
 	pixels_indent = 30 #: pixels indent for a single indent level
 	bullet_icon_size = Gtk.IconSize.MENU #: constant for icon size of checkboxes etc.
 
