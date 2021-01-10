@@ -5,8 +5,9 @@ Zimt - my variant of Zim
 Formatting
 ===========================
 
-Headers:
+- Headers:
 
+    ```
     =* H1
     
     =** H2
@@ -16,21 +17,37 @@ Headers:
     =**** H4
     
     =***** H5
+    ```
+
+- Numbered list:
     
-Numbered list:    
-    
+    ```
     1. One
     2. Two
+    ```
     
-Unnumbered list:    
+- Unnumbered list:
     
+    ```
     * One
-            * Eleven
+      * Eleven
+    ```
                             
-Yet unsupported:
+- Yet unsupported:
     
+    ```
     = definitions
+    ```
 
+
+Source changes
+===========================
+
+Search for ‘#T’, e.g. ‘#T+’, ‘T-’, ...
+
+
+End
+===========================
 
 The original README follows 
 
