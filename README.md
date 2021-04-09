@@ -43,7 +43,12 @@ Formatting
 Source changes
 ===========================
 
-Search for ‘#T’, e.g. ‘#T+’, ‘T-’, ...
+- Search for ‘#T’, e.g. ‘#T+’, ‘T-’, ...
+
+- Style
+
+  - Edit ./data/style.conf
+  - On Windows, your settings are in C:\Users\arvid\AppData\Roaming\zim
 
 
 End
